@@ -8,7 +8,7 @@ public class ThreeKingdomsServer {
 
   public static void main(String[] args) {
     BasicConfigurator.configure();
-    get("/hello", (req, res) -> "hello world");
+    get("/hiYvonne", (req, res) -> "Yvonne is stupid");
   }
 
 }
