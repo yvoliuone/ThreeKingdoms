@@ -1,7 +1,6 @@
 package server;
 
 import org.apache.log4j.BasicConfigurator;
-
 import static spark.Spark.*;
 
 public class ThreeKingdomsServer {
