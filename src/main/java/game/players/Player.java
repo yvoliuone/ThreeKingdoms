@@ -14,15 +14,6 @@ public class Player implements Serializable {
   private ArrayList<Card> equipment;
   private ArrayList<Card> judge;
 
-  private Player(Character character) {
-    this.name = character.getName();
-    this.hp = character.getHp();
-    this.handLimit = character.getHp();
-    this.hand = new ArrayList<>();
-    this.equipment = new ArrayList<>(4);
-    this.judge = new ArrayList<>();
-  }
-
   private Player(String name, int hp, int handLimit, ArrayList<Card> hand,
                  ArrayList<Card> equipment, ArrayList<Card> judge) {
     this.name = name;

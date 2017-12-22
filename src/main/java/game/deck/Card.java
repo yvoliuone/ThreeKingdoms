@@ -1,5 +1,7 @@
 package game.deck;
 
+import game.ThreeKingdoms;
+
 import java.io.Serializable;
 
 public abstract class Card implements Serializable {
