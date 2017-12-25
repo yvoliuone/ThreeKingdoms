@@ -14,7 +14,7 @@ public class ThreeKingdomsServer {
     staticFileLocation("/public"); //index.html is served at localhost:4567 (default port)
     webSocket("/chat", handler.class);
     init();
-    
+
   }
 
 }
