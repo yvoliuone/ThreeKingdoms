@@ -180,6 +180,21 @@ public class DeckofCards {
     return new DeckofCards(newCards, getTableTop(), getDiscardedPile());
   }
 
+
+  /**
+   * If the main "cards" array is empty, shuffle cards in the discarded pile and move to main "cards".
+   * Cards on the table top remains unchanged.
+   * @return the new deck
+   */
+  public DeckofCards reset() {
+    if (!getCards().isEmpty()) {
+      // Delete one message after testing!
+      System.out.println("错误：牌堆未空时重置，导致丢失卡牌");
+      System.err.println("错误：牌堆未空时重置，导致丢失卡牌");
+    }
+    return new DeckofCards(getDiscardedPile(), getTableTop(), new ArrayList<>()).shuffle();
+  }
+
 }
 
 
