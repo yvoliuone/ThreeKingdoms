@@ -1,5 +1,6 @@
 package game.deck;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -11,13 +12,22 @@ import game.deck.Tactics.*;
 import static game.deck.Card.Suit.*;
 
 public class DeckofCards {
-  private ArrayList<game.deck.Card> cards;
-  private ArrayList<game.deck.Card> discardedPile;
+  private ArrayList<Card> cards;
+  private ArrayList<Card> discardedPile;
+  private ArrayList<Card> tableTop;
 
   private DeckofCards() {
+    // The pile of cards from which players draw
     this.cards = new ArrayList<>();
+
+    // The pile of cards that are played in the current turn
+    this.tableTop = new ArrayList<>();
+
+    // The pile of discarded cards. Cards on table top go here after each turn ends
     this.discardedPile = new ArrayList<>();
 
+    // The discarded pile and table top are initially empty.
+    // We manually add all cards to the "cards" array
 
     // Spade cards
     cards.add(new Duel(1, SPADE));
@@ -109,8 +119,9 @@ public class DeckofCards {
     cards.add(new Peach(12, DIAMOND));
   }
 
-  public DeckofCards(ArrayList<game.deck.Card> cards, ArrayList<game.deck.Card> discardedPile) {
+  public DeckofCards(ArrayList<Card> cards, ArrayList<Card> tableTop, ArrayList<Card> discardedPile) {
     this.cards = cards;
+    this.tableTop = tableTop;
     this.discardedPile = discardedPile;
   }
 
@@ -125,19 +136,27 @@ public class DeckofCards {
 
 
   /**
-   * Gets all the cards in the deck.
+   * Gets all the cards that player can draw.
    * @return an arraylist of cards
    */
-  public ArrayList<game.deck.Card> getCards() {
+  public ArrayList<Card> getCards() {
     return cards;
   }
 
 
   /**
+   * Gets all cards that have been played in the current turn.
+   * @return an arraylist of cards
+   */
+  public ArrayList<Card> getTableTop() {
+    return tableTop;
+  }
+
+  /**
    * Gets all the cards in the discarded pile.
    * @return an arraylist of discarded cards
    */
-  public ArrayList<game.deck.Card> getDiscardedPile() {
+  public ArrayList<Card> getDiscardedPile() {
     return discardedPile;
   }
 
@@ -156,9 +175,9 @@ public class DeckofCards {
    * @return the shuffled deck
    */
   public DeckofCards shuffle() {
-    ArrayList<game.deck.Card> newCards = getCards();
+    ArrayList<Card> newCards = getCards();
     Collections.shuffle(newCards);
-    return new DeckofCards(newCards, getDiscardedPile());
+    return new DeckofCards(newCards, getTableTop(), getDiscardedPile());
   }
 
 }

@@ -4,6 +4,7 @@ import game.deck.Card;
 import game.deck.DeckofCards;
 import game.players.Player;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -67,11 +68,19 @@ public class ThreeKingdoms {
   }
 
   /**
-   * Gets all the cards that can be dealt in the game.
+   * Gets all the cards that players can draw in the game.
    * @return an arraylist of current cards
    */
   public ArrayList<Card> getCards() {
     return deck.getCards();
+  }
+
+  /**
+   * Gets all cards that have been played in the current turn.
+   * @return an arraylist of cards in the current turn
+   */
+  public ArrayList<Card> getTableTop() {
+    return deck.getTableTop();
   }
 
   /**
@@ -84,12 +93,13 @@ public class ThreeKingdoms {
 
   /**
    * Updates the deck of the game.
-   * @param newCards arraylist of new cards to be dealt
+   * @param newCards arraylist of new cards to be drawn
+   * @param newTable arraylist of new cards played in the current turn
    * @param newDiscarded arraylist of new discarded cards
    * @return a new game instance with updated deck
    */
-  public ThreeKingdoms updateDeck(ArrayList<Card> newCards, ArrayList<Card> newDiscarded) {
-    return new ThreeKingdoms(me, opponent, new DeckofCards(newCards, newDiscarded));
+  public ThreeKingdoms updateDeck(ArrayList<Card> newCards, ArrayList<Card> newTable, ArrayList<Card> newDiscarded) {
+    return new ThreeKingdoms(me, opponent, new DeckofCards(newCards, newTable, newDiscarded));
   }
 
   /**
@@ -115,7 +125,17 @@ public class ThreeKingdoms {
       newHand.add(card);
       count--;
     }
-    return updateMainPlayer(me.updateHand(newHand)).updateDeck(remainingCards, getDiscardedPile());
+    return updateMainPlayer(me.updateHand(newHand)).updateDeck(remainingCards, getTableTop(), getDiscardedPile());
+  }
+
+  /**
+   * Ends the current turn. Move all cards on table top to discarded pile.
+   * @return a new game instance with updated tableTop and discardedPile
+   */
+  public ThreeKingdoms endTurn() {
+    ArrayList<Card> newDiscarded = getDiscardedPile();
+    newDiscarded.addAll(getTableTop());
+    return updateDeck(getCards(), new ArrayList<>(), newDiscarded);
   }
 
 
