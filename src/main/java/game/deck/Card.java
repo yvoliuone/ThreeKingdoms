@@ -2,9 +2,7 @@ package game.deck;
 
 import game.ThreeKingdoms;
 
-import java.io.Serializable;
-
-public abstract class Card implements Serializable {
+public abstract class Card {
   Integer rank;
   Suit suit;
 
@@ -19,6 +17,8 @@ public abstract class Card implements Serializable {
     DIAMOND,
     CLUB
   }
+
+  //TODO: 也许需要method: getPicture() 存放每张卡的图片（图片存云端？）
 
   /**
    * Get the suit of the card.
