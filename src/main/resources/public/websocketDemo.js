@@ -4,8 +4,16 @@ webSocket.onmessage = function (msg) { updateChat(msg); };
 //webSocket.onclose = function () { alert("WebSocket connection closed") };
 
 //Send message if "Send" is clicked
-id("send").addEventListener("click", function () {
-    sendMessage(id("message").value);
+id("card1").addEventListener("click", function () {
+    sendMessage("Attack");
+});
+
+id("card2").addEventListener("click", function () {
+    sendMessage("Dodge");
+});
+
+id("card3").addEventListener("click", function () {
+    sendMessage("Peach");
 });
 
 //Send message if enter is pressed in the input field

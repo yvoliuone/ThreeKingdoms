@@ -18,17 +18,17 @@ public class Chat {
 
   public static void main(String[] args) {
     staticFileLocation("/public");
-    staticFiles.expireTime(600);
-    webSocket("/chat", ChatWebSocketHandler.class);
+//    staticFiles.expireTime(600);
+    webSocket("/game", ChatWebSocketHandler.class);
     init();
   }
 
 
   private static String createHtmlMessageFromSender(String sender, String message) {
     return article().with(
-        b(sender + "says: "),
-        p(message),
-        span().withClass("timestamp").withText(new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        b(sender + " plays " + message),
+        p(message)
+//        span().withClass("timestamp").withText(new SimpleDateFormat("HH:mm:ss").format(new Date()))
     ).render();
   }
 
