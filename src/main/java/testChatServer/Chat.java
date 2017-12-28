@@ -3,16 +3,13 @@ package testChatServer;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static j2html.TagCreator.*;
-import static spark.Spark.init;
-import static spark.Spark.staticFileLocation;
-import static spark.Spark.webSocket;
+import static spark.Spark.*;
 
 public class Chat {
   static Map<Session, String> userUsernameMap = new ConcurrentHashMap<>();
@@ -21,16 +18,17 @@ public class Chat {
 
   public static void main(String[] args) {
     staticFileLocation("/public");
-    webSocket("/chat", ChatWebSocketHandler.class);
+//    staticFiles.expireTime(600);
+    webSocket("/game", ChatWebSocketHandler.class);
     init();
   }
 
 
   private static String createHtmlMessageFromSender(String sender, String message) {
     return article().with(
-        b(sender + "says: "),
-        p(message),
-        span().withClass("timestamp").withText(new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        b(sender + " plays " + message),
+        p(message)
+//        span().withClass("timestamp").withText(new SimpleDateFormat("HH:mm:ss").format(new Date()))
     ).render();
   }
 
