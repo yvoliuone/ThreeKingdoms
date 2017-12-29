@@ -3,8 +3,7 @@ package testChatServer;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +18,7 @@ public class Chat {
   public static void main(String[] args) {
     staticFileLocation("/public");
 //    staticFiles.expireTime(600);
-    webSocket("/game", ChatWebSocketHandler.class);
+    webSocket("/chat", ChatWebSocketHandler.class);
     init();
   }
 
