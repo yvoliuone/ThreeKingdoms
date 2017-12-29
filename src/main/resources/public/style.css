@@ -21,7 +21,7 @@ input {
 }
 
 button {
-    background-color: #FF2D2D;
+    background-color: #ffa2b0;
     color: white;
     padding: 15px 32px;
     text-align: center;
@@ -34,7 +34,12 @@ li {
     margin: 5px 0;
 }
 
-#chatControls {
+#hand1 {
+    overflow: auto;
+    margin: 0 0 5px 0
+}
+
+#hand2 {
     overflow: auto;
     margin: 0 0 5px 0
 }
