@@ -5,15 +5,15 @@ webSocket.onmessage = function (msg) { updateChat(msg); };
 
 //Send message if "Send" is clicked
 id("card1").addEventListener("click", function () {
-    sendMessage("Attack");
+    sendMessage(JSON.stringify({play: 1}));
 });
 
 id("card2").addEventListener("click", function () {
-    sendMessage("Dodge");
+    sendMessage(JSON.stringify({play: 2}));
 });
 
 id("card3").addEventListener("click", function () {
-    sendMessage("Peach");
+    sendMessage(JSON.stringify({play: 3}));
 });
 
 //Send message if enter is pressed in the input field
@@ -25,7 +25,7 @@ id("message").addEventListener("keypress", function (e) {
 function sendMessage(message) {
     if (message !== "") {
         webSocket.send(message);
-        id("message").value = "";
+        // id("message").value = "";
     }
 }
 
