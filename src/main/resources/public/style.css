@@ -20,8 +20,8 @@ input {
     margin: 5px 0;
 }
 
-button {
-    background-color: #ffa2b0;
+.hand1 {
+    background-color: #299c00;
     color: white;
     padding: 15px 32px;
     text-align: center;
@@ -30,19 +30,32 @@ button {
     font-size: 25px;
 }
 
-li {
-    margin: 5px 0;
+.hand2 {
+    background-color: #2c6791;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
 }
 
 #hand1 {
     overflow: auto;
-    margin: 0 0 5px 0
+    margin: 0 0 5px 0;
+
 }
 
 #hand2 {
     overflow: auto;
-    margin: 0 0 5px 0
+    margin: 0 0 5px 0;
 }
+
+.disabledDiv {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
 
 #userlist {
     position: fixed;

@@ -2,27 +2,20 @@
 
 //Establish the WebSocket connection and set up event handlers
 var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat")
+
+webSocket.onopen = function() {
+    $("#hand2").addClass("disabledDiv");
+}
+
 webSocket.onmessage = function (msg) {
     console.log("Received message update!")
     update(msg)
 }
-
-//webSocket.onclose = function () { alert("WebSocket connection closed") }
+// webSocket.onclose = function () { alert("玩家掉线，游戏结束") }
 
 $("#card1").click( function () {
     sendJson("1");
 });
-// document.getElementById("card1").addEventListener("click", function () {
-//     alert("card1 is played!")
-//     document.getElementById("card1").remove()
-//     console.log("removed!")
-//     sendJson("1")
-// })
-
-// document.getElementById("card2").addEventListener("click", function () {
-//     alert("card2 is played!")
-//     // document.getElementById("card2").remove()
-// })
 
 $("#card2").click( function () {
     sendJson("2");
@@ -44,16 +37,23 @@ $("#card33").click(function () {
     sendJson("33")
 })
 
-// //Send message if enter is pressed in the input field
-// id("message").addEventListener("keypress", function (e) {
-//     if (e.keyCode === 13) { sendMessage(e.target.value); }
-// });
-
 
 function sendJson(string) {
-    console.log("card" + string + " is played!")
-    webSocket.send(JSON.stringify({play: string}))
-    console.log("Message sent!")
+    // Send the appropriate JSON
+    switch (string.charAt(0)) {
+        case "1":
+            console.log("Attack is played!")
+            webSocket.send(JSON.stringify({play: string, request: "attack", amount: 1}))
+            break
+        case "2":
+            console.log("Dodge is played!")
+            webSocket.send(JSON.stringify({play: string}))
+            break
+        default:
+            console.log("Peach is played!")
+    }
+
+    // Remove the card
     var card = "#card" + string
     $(card).remove()
 }
@@ -66,12 +66,28 @@ function update(message) {
     })
         .done( function(data) {
             console.log("'GET' method success: " + data)
-            var card = "#card" + JSON.parse(data).play
-            $(card).remove()
+            var cardNo = JSON.parse(data).play
+            $("#card" + cardNo).remove()
+            if (cardNo.charAt(0) == "1") {
+                alert("Your opponent played an Attack. Please play a dodge.")
+                changeTurn()
+            }
     })
         .fail( function(data) {
             console.log("error: " + data)
         })
+}
+
+function changeTurn() {
+    if ($("#hand1").is(".disabledDiv")) {
+        console.log("enter if")
+        $("#hand1").removeClass("disabledDiv")
+        $("#hand2").addClass("disabledDiv")
+    } else {
+        console.log("enter else")
+        $("#hand2").removeClass("disabledDiv")
+        $("#hand1").addClass("disabledDiv")
+    }
 }
 
 
