@@ -10,13 +10,19 @@ webSocket.onmessage = function (msg) { update(msg); };
 // });
 document.getElementById("card1").addEventListener("click", function () {
     alert("card1 is played!");
+    document.getElementById("card1").remove();
     sendJson("1");
 })
 
-$("#card2").click( function () {
+document.getElementById("card2").addEventListener("click", function () {
     alert("card2 is played!")
-    sendJson("2");
+    document.getElementById("card2").remove();
 });
+
+// $("#card2").click( function () {
+//     alert("card2 is played!")
+//     sendJson("2");
+// });
 
 $("#card3").click(function () {
     sendJson("3");
@@ -39,12 +45,11 @@ $("#card33").click(function () {
 //     if (e.keyCode === 13) { sendMessage(e.target.value); }
 // });
 
-//Send a message if it's not empty, then clear the input field
 
 function sendJson(string) {
     webSocket.send(JSON.stringify({play: string}));
     var card = "#card" + string;
-    $(card).remove();
+    // document.getElementById(card).remove();
 }
 
 function update(message) {
