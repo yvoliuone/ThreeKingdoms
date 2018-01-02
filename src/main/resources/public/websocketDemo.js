@@ -60,21 +60,19 @@ function sendJson(string) {
 }
 
 function update(message) {
-    // $.ajax({
-    //     url: "/testget/",
-    //     type: "GET",
-    //     data: {'input': message}
-    // })
-    //     .done( function(data) {
-    //         console.log("'GET' method success: " + data)
-    //         var card = "#card" + JSON.parse(data).play
-    //         $(card).remove()
-    // })
-    //     .fail( function(data) {
-    //         console.log("error: " + data)
-    //     })
-    var card = "#card" + JSON.parse(message.data).play
-    $(card).remove()
+    $.ajax({
+        url: "/testget/",
+        type: "GET",
+        data: {'input': message.data}
+    })
+        .done( function(data) {
+            console.log("'GET' method success: " + data)
+            var card = "#card" + JSON.parse(data).play
+            $(card).remove()
+    })
+        .fail( function(data) {
+            console.log("error: " + data)
+        })
 }
 
 
