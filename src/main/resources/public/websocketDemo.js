@@ -29,7 +29,6 @@ $("#card2").click( function () {
 });
 
 $("#card3").click( function () {
-    alert("card3 is played!")
     sendJson("3")
 })
 
