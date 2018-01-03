@@ -23,6 +23,11 @@ public class Player {
     this.judge = judge;
   }
 
+
+  public static Player createTest(String name) {
+    return new Player(name, 3, 3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+  }
+
   /**
    * Gets the name of the player's hero.
    * @return the hero's name

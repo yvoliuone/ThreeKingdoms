@@ -28,7 +28,7 @@ public class ThreeKingdoms {
    * @param opponent the opponent player instance
    * @return a new game instance with the players and an initialized deck
    */
-  public ThreeKingdoms startNewGame(Player me, Player opponent) {
+  public static ThreeKingdoms startNewGame(Player me, Player opponent) {
     return new ThreeKingdoms(me, opponent, DeckofCards.makeNewDeck());
   }
 
