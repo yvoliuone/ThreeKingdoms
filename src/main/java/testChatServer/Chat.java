@@ -15,7 +15,7 @@ import static spark.Spark.*;
 
 public class Chat {
   public static int userNumber = 1;
-  public static ConcurrentHashMap<Session, Integer> userMap = new ConcurrentHashMap();
+  public static ConcurrentHashMap<Session, Integer> userMap = new ConcurrentHashMap<>();
 
 
   public static void main(String[] args) {

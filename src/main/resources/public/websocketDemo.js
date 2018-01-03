@@ -51,10 +51,12 @@ function sendJson(string) {
             break
         default:
             console.log("Peach is played!")
+            webSocket.send(JSON.stringify({play: string}))
     }
 
     // Remove the card
     var card = "#card" + string
+    console.log("You played a " + card + "!")
     $(card).remove()
 }
 
@@ -62,15 +64,20 @@ function update(message) {
     $.ajax({
         url: "/testget/",
         type: "GET",
-        data: {'input': message.data}
+        data: {input: message.data}
     })
         .done( function(data) {
             console.log("'GET' method success: " + data)
-            var cardNo = JSON.parse(data).play
-            $("#card" + cardNo).remove()
-            if (cardNo.charAt(0) == "1") {
-                alert("Your opponent played an Attack. Please play a dodge.")
+
+            if (data.charAt(1) === 'i') {
                 changeTurn()
+                return
+            }
+            var cardNo = JSON.parse(data).play
+            console.log("ajax card no: " + cardNo)
+            $("#card" + cardNo).remove()
+            if (cardNo.charAt(0) === "1") {
+                alert("Your opponent played ATTACK. Please play a DODGE.")
             }
     })
         .fail( function(data) {
@@ -79,15 +86,8 @@ function update(message) {
 }
 
 function changeTurn() {
-    if ($("#hand1").is(".disabledDiv")) {
-        console.log("enter if")
-        $("#hand1").removeClass("disabledDiv")
-        $("#hand2").addClass("disabledDiv")
-    } else {
-        console.log("enter else")
-        $("#hand2").removeClass("disabledDiv")
-        $("#hand1").addClass("disabledDiv")
-    }
+    $("#hand2").removeClass("disabledDiv")
+    $("#hand1").addClass("disabledDiv")
 }
 
 
