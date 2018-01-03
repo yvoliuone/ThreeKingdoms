@@ -56,6 +56,10 @@ input {
     opacity: 0.4;
 }
 
+.tempDisabled {
+    pointer-events: none;
+}
+
 
 #userlist {
     position: fixed;

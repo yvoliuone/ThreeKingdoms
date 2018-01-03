@@ -44,10 +44,12 @@ function sendJson(string) {
         case "1":
             console.log("Attack is played!")
             webSocket.send(JSON.stringify({play: string, request: "attack", amount: 1}))
+            endTurn()
             break
         case "2":
             console.log("Dodge is played!")
             webSocket.send(JSON.stringify({play: string}))
+            endTurn()
             break
         default:
             console.log("Peach is played!")
@@ -70,14 +72,18 @@ function update(message) {
             console.log("'GET' method success: " + data)
 
             if (data.charAt(1) === 'i') {
-                changeTurn()
+                initTurn()
                 return
             }
+
             var cardNo = JSON.parse(data).play
-            console.log("ajax card no: " + cardNo)
             $("#card" + cardNo).remove()
             if (cardNo.charAt(0) === "1") {
                 alert("Your opponent played ATTACK. Please play a DODGE.")
+                startTurn()
+            }
+            if (cardNo.charAt(0) === "1") {
+                startTurn()
             }
     })
         .fail( function(data) {
@@ -85,9 +91,29 @@ function update(message) {
         })
 }
 
-function changeTurn() {
-    $("#hand2").removeClass("disabledDiv")
-    $("#hand1").addClass("disabledDiv")
+var hand1 = $("#hand1")
+var hand2 = $("#hand2")
+
+// The second player sees Hand2
+function initTurn() {
+    hand2.removeClass("disabledDiv")
+    hand1.addClass("disabledDiv")
+}
+
+function endTurn() {
+    if (hand2.is(".disabledDiv")) {
+        hand1.addClass("tempDisabled")
+    } else {
+        hand2.addClass("tempDisabled")
+    }
+}
+
+function startTurn() {
+    if (hand2.is(".disabledDiv")) {
+        hand1.removeClass("tempDisabled")
+    } else {
+        hand2.removeClass("tempDisabled")
+    }
 }
 
 
