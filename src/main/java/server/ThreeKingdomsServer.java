@@ -6,6 +6,7 @@ import game.deck.Card;
 import game.deck.DeckofCards;
 import game.players.Player;
 import org.eclipse.jetty.websocket.api.Session;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class ThreeKingdomsServer {
   public static int userNumber = 1;
   public static ConcurrentHashMap<Session, Integer> sessionMap = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<Integer, Session> userMap = new ConcurrentHashMap<>();
-    ArrayList<Card> deck = DeckofCards.test();
+    static ArrayList<Card> deck = DeckofCards.test();
 
     public static void main(String[] args) {
 //    ThreeKingdoms game = ThreeKingdoms.startNewGame(Player.createTest("player1"), Player.createTest("player2"));
@@ -55,9 +56,13 @@ public class ThreeKingdomsServer {
     }
 
 
-  public static JSONObject draw(Session userSession, int amount) {
-        //TODO
-      return null;
+  public static String draw(Session userSession, int amount) {
+      JSONArray cards = new JSONArray();
+      for (int i = 0; i < amount; i++) {
+          Card card = deck.remove(0);
+          cards.put(new JSONArray().put(card.getType()).put(card.getSuit()).put(card.getRank()));
+      }
+      return JSONObject.valueToString(new JSONObject().put("command", "draw").put("cards", cards).put("amount", amount));
   }
 
   public static void sendMessage(Session userSession, String message) {
@@ -67,6 +72,15 @@ public class ThreeKingdomsServer {
       e.printStackTrace();
     }
   }
+
+//  public static void sendToAll(String message) {
+//        sessionMap.keySet().forEach( session -> {
+//                try {
+//                    session.getRemote().sendString(message);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }});
+//  }
 
   public static Session nextSession(Session userSession) {
     return sessionMap.keySet().stream().filter(session -> session != userSession).findFirst().get();

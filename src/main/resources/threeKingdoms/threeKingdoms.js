@@ -10,9 +10,7 @@ webSocket.onopen = function() {
 webSocket.onmessage = function (msg) {
     console.log("Received message update! Message is: " + msg.data)
     var json = JSON.parse(msg.data)
-    console.log("COMMAND bool: " + (json.command.localeCompare("draw") === 0).toString())
-
-    if (json.command.localeCompare("draw") === 0) {
+    if (json.command == "draw") {
         startTurn(msg.data)
     } else {
         update(msg.data)
@@ -24,7 +22,9 @@ var hand = [];
 
 
 $("#card1").click( function () {
-    sendJson("1");
+    if (checkActive(hand[0][0])) {
+
+    }
 });
 
 $("#card2").click( function () {
@@ -75,11 +75,6 @@ function update(message) {
         .done( function(data) {
             console.log("'UPDATE' method success: " + data)
 
-            // if (data.charAt(1) === 'i') {
-            //     initTurn()
-            //     return
-            // }
-
             var cardNo = JSON.parse(data).play
             // $("#card" + cardNo).remove()
             if (cardNo.charAt(0) === "1") {
@@ -97,33 +92,36 @@ function update(message) {
 
 
 function startTurn(message) {
-    // $.ajax({
-    //     url: "/startTurn/",
-    //     type: "GET",
-    //     data: {input: message.data}
-    // })
-    //     .done( function(data) {
-    //         console.log("'START TURN' method success: " + data)
-    //
-    //         alert("It's your turn to play!")
-    //         resume()
-    //     })
-    //     .fail( function(data) {
-    //         console.log("error: " + data)
-    //     })
-    console.log("'START TURN' method success: " + message)
-    alert("It's your turn to play!")
-    var cards = JSON.parse(message).cards
-    cards.forEach(function (card) { hand.push(card) })
-    updateHand()
+    console.log("enter startTurn")
+    $.ajax({
+        url: "/startTurn/",
+        type: "GET",
+        data: {input: message}
+    })
+        .done( function(data) {
+            console.log("'START TURN' method success: " + data)
+            // alert("It's your turn to play!")
+            var cards = JSON.parse(data).cards
+            cards.forEach(function (card) { hand.push(card) })
+            updateHand()
+            resume()
+        })
+        .fail( function(data) {
+            console.log("error: " + data)
+        })
+    // console.log("'START TURN' method success: " + message)
+    // var cards = JSON.parse(message).cards
+    // cards.forEach(function (card) { hand.push(card) })
+    // updateHand()
+    // resume()
 
 }
 
 function updateHand() {
     for (var i = 0; i < hand.length; i++) {
         var type = hand[i][0]
-        var card = "#card" + i
-        $(card).innerHTML = "<img src='pictures\\" + type + ".png' />"
+        var card = "card" + (i + 1)
+        document.getElementById(card).innerHTML = "<img src='pictures/" + type + ".jpg' />"
     }
 }
 
@@ -137,6 +135,12 @@ function resume() {
     $("#hand").removeClass("tempDisabled")
 }
 
+function play(string) {
+    if (string == "attack") {
+        webSocket.send(JSON.stringify({command: "request", card: "attack", amount: 1}))
+    }
+    return true
+}
 
 // //Update the chat-panel, and the list of connected users
 // function updateChat(msg) {

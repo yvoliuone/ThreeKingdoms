@@ -10,7 +10,6 @@ html, body {
 #hand {
     position: absolute;
     overflow: hidden;
-    /*padding: 10px 100px;*/
     background-color: #46cadb;
     width: 60%;
     height: 30%;
@@ -53,13 +52,32 @@ html, body {
     position: relative;
     background-color: #3581b4;
     color: white;
-    height: 80%;
-    width: 20%;
+    height: 85%;
+    width: 18%;
     text-align: center;
     top: 10%;
-    left: 10%;
+    left: 5%;
     display: inline-block;
     font-size: 20px;
+}
+
+/*#card1 {*/
+    /*position: relative;*/
+    /*background-color: #3581b4;*/
+    /*color: white;*/
+    /*height: 80%;*/
+    /*width: 20%;*/
+    /*text-align: center;*/
+    /*top: 10%;*/
+    /*left: 10%;*/
+    /*display: inline-block;*/
+    /*font-size: 20px;*/
+/*}*/
+
+img {
+    position: relative;
+    height: 100%;
+    width: 100%;
 }
 
 button {

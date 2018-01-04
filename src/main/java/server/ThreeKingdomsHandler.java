@@ -3,19 +3,29 @@ package server;
 import org.eclipse.jetty.websocket.api.*;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.json.JSONObject;
+import java.io.IOException;
+
+import static server.ThreeKingdomsServer.*;
 
 @WebSocket
 public class ThreeKingdomsHandler {
 
     @OnWebSocketConnect
     public void onConnect(Session userSession) throws Exception {
-        int userId = ThreeKingdomsServer.userNumber++;
+        int userId = userNumber++;
         System.out.println("Welcome user" + userId);
-        ThreeKingdomsServer.sessionMap.put(userSession, userId);
-        ThreeKingdomsServer.userMap.put(userId, userSession);
+        sessionMap.put(userSession, userId);
+        userMap.put(userId, userSession);
         if (userId == 2) {
-            //TODO: DRAW
-            userSession.getRemote().sendString(JSONObject.valueToString(new JSONObject("{ command: draw, cards: [[attack, 1, SPADE], [dodge, 1, DIAMOND]], amount: 2 }")));
+            sessionMap.keySet().forEach(
+                    session -> {
+                        try {
+                            session.getRemote().sendString(draw(session, 2));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+            );
         }
     }
 
@@ -27,9 +37,15 @@ public class ThreeKingdomsHandler {
     @OnWebSocketMessage
     public void onMessage(Session userSession, String message) {
         if (message.equals("end")) {
-            //TODO: DRAW
+            Session next = nextSession(userSession);
+            try {
+                next.getRemote().sendString(draw(next, 1));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            sendMessage(userSession, message);
         }
-        ThreeKingdomsServer.sendMessage(userSession, message);
     }
 
 }
