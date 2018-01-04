@@ -13,9 +13,10 @@ public class ThreeKingdomsHandler {
         System.out.println("Welcome user" + userId);
         ThreeKingdomsServer.sessionMap.put(userSession, userId);
         ThreeKingdomsServer.userMap.put(userId, userSession);
-//        if (userId == 2) {
-//            userSession.getRemote().sendString(JSONObject.valueToString("init"));
-//        }
+        if (userId == 2) {
+            //TODO: DRAW
+            userSession.getRemote().sendString(JSONObject.valueToString(new JSONObject("{ command: draw, cards: [[attack, 1, SPADE], [dodge, 1, DIAMOND]], amount: 2 }")));
+        }
     }
 
 
@@ -25,6 +26,9 @@ public class ThreeKingdomsHandler {
 
     @OnWebSocketMessage
     public void onMessage(Session userSession, String message) {
+        if (message.equals("end")) {
+            //TODO: DRAW
+        }
         ThreeKingdomsServer.sendMessage(userSession, message);
     }
 

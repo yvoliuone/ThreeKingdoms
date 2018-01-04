@@ -29,11 +29,16 @@ public class ThreeKingdomsServer {
     webSocket("/threeKingdoms", ThreeKingdomsHandler.class);
 
     // launch the browser
-    try {
-      java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://localhost:4567/threeKingdoms/"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://localhost:4567/threeKingdoms/"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://localhost:4567/threeKingdoms/"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     get("/update/", (request, response) ->  request.queryParams("input") );
 

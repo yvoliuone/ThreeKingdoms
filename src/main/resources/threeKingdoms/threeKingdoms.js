@@ -5,19 +5,22 @@ var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port 
 
 webSocket.onopen = function() {
     $("#hand").addClass("tempDisabled")
-}
+};
 
 webSocket.onmessage = function (msg) {
-    console.log("Received message update!")
-    console.log("END bool: " + (msg.data.localeCompare("end") === 0).toString())
-    if (msg.data.localeCompare("end") === 0) {
+    console.log("Received message update! Message is: " + msg.data)
+    var json = JSON.parse(msg.data)
+    console.log("COMMAND bool: " + (json.command.localeCompare("draw") === 0).toString())
+
+    if (json.command.localeCompare("draw") === 0) {
         startTurn(msg.data)
+    } else {
+        update(msg.data)
     }
-    update(msg.data)
 }
 // webSocket.onclose = function () { alert("玩家掉线，游戏结束") }
 
-var hand = {};
+var hand = [];
 
 
 $("#card1").click( function () {
@@ -65,12 +68,12 @@ function sendJson(string) {
 
 function update(message) {
     $.ajax({
-        url: "/testget/",
+        url: "/update/",
         type: "GET",
         data: {input: message}
     })
         .done( function(data) {
-            console.log("'GET' method success: " + data)
+            console.log("'UPDATE' method success: " + data)
 
             // if (data.charAt(1) === 'i') {
             //     initTurn()
@@ -81,10 +84,10 @@ function update(message) {
             // $("#card" + cardNo).remove()
             if (cardNo.charAt(0) === "1") {
                 alert("Your opponent played ATTACK. Please play a DODGE.")
-                startTurn()
+                resume()
             }
             if (cardNo.charAt(0) === "1") {
-                startTurn()
+                resume()
             }
         })
         .fail( function(data) {
@@ -95,7 +98,7 @@ function update(message) {
 
 function startTurn(message) {
     // $.ajax({
-    //     url: "/startturn/",
+    //     url: "/startTurn/",
     //     type: "GET",
     //     data: {input: message.data}
     // })
@@ -103,17 +106,25 @@ function startTurn(message) {
     //         console.log("'START TURN' method success: " + data)
     //
     //         alert("It's your turn to play!")
-    //         startTurn()
+    //         resume()
     //     })
     //     .fail( function(data) {
     //         console.log("error: " + data)
     //     })
-
+    console.log("'START TURN' method success: " + message)
     alert("It's your turn to play!")
-    var card1 = JSON.parse(message).card1
-    var card2 = JSON.parse(message).card2
+    var cards = JSON.parse(message).cards
+    cards.forEach(function (card) { hand.push(card) })
+    updateHand()
 
+}
 
+function updateHand() {
+    for (var i = 0; i < hand.length; i++) {
+        var type = hand[i][0]
+        var card = "#card" + i
+        $(card).innerHTML = "<img src='pictures\\" + type + ".png' />"
+    }
 }
 
 
@@ -122,12 +133,8 @@ function wait() {
 }
 
 function resume() {
+    alert("You can play a card")
     $("#hand").removeClass("tempDisabled")
-}
-
-function startTurn() {
-    alert("It's your turn to play")
-    resume()
 }
 
 
