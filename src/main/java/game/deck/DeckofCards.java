@@ -125,6 +125,23 @@ public class DeckofCards {
     this.discardedPile = discardedPile;
   }
 
+  public static ArrayList<Card> test() {
+    ArrayList<Card> test = new ArrayList<>();
+    for (int rank : new int[] {1, 2, 3, 4, 5}) {
+      test.add(new Attack(rank, SPADE));
+    }
+
+    for (int rank : new int[] {1, 2, 3}) {
+      test.add(new Dodge(rank, DIAMOND));
+    }
+    for (int rank : new int[] {1, 2}) {
+        test.add(new Peach(rank, HEART));
+    }
+    Collections.shuffle(test);
+
+    return test;
+  }
+
 
   /**
    * Constructs a new deck of 52 cards.

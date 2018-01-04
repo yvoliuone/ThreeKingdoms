@@ -6,6 +6,7 @@ html, body {
     height: 100%;
 }
 
+
 #hand {
     position: absolute;
     overflow: hidden;
@@ -30,12 +31,23 @@ html, body {
 #opponent {
     position: absolute;
     overflow: hidden;
-    background-color: #db242e;
+    background-color: #d6db44;
     width: 20%;
     height: 35%;
     top: 5%;
     left: 40%;
 }
+
+
+#end {
+    position: fixed;
+    background-color: #db3532;
+    width: 7%;
+    height: 4%;
+    right: 5%;
+    bottom: 37%;
+}
+
 
 #hand button {
     position: relative;
@@ -43,7 +55,6 @@ html, body {
     color: white;
     height: 80%;
     width: 20%;
-    /*padding: 15% 8%;*/
     text-align: center;
     top: 10%;
     left: 10%;
@@ -57,13 +68,14 @@ button {
     color: white;
     height: 10%;
     width: 80%;
-    /*padding: 3% 24%;*/
     text-align: center;
     top: 55%;
     left: 10%;
     display: inline-block;
     font-size: 10px;
 }
+
+
 
 .disabledDiv {
     pointer-events: none;

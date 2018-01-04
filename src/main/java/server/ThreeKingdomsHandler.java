@@ -11,10 +11,11 @@ public class ThreeKingdomsHandler {
     public void onConnect(Session userSession) throws Exception {
         int userId = ThreeKingdomsServer.userNumber++;
         System.out.println("Welcome user" + userId);
-        ThreeKingdomsServer.userMap.put(userSession, userId);
-        if (userId == 2) {
-            userSession.getRemote().sendString(JSONObject.valueToString("init"));
-        }
+        ThreeKingdomsServer.sessionMap.put(userSession, userId);
+        ThreeKingdomsServer.userMap.put(userId, userSession);
+//        if (userId == 2) {
+//            userSession.getRemote().sendString(JSONObject.valueToString("init"));
+//        }
     }
 
 
