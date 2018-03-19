@@ -10,6 +10,7 @@ This project is unfinished.
 
 The deck of 52 cards in the 1v1 version:
 Attack/杀: ♠5 ♠7 ♠8 ♠10 ♥10 ♥J ♣4 ♣5 ♣6 ♣8 ♣9 ♣10 ♣J ♦6 ♦9 ♦K
+
 Dodge/闪: ♥2 ♥5 ♦2 ♦3 ♦7 ♦8 ♦10 ♦J
 Peach/桃: ♥3 ♥4 ♥9 ♦Q
 Hail of Arrows/万箭齐发: ♥A
