@@ -73,6 +73,34 @@ public class Player {
   }
 
   /**
+   * Adds the card to the player's current hand
+   * @param card a new card that the player draws
+   * @return a new player instance with updated hand
+   */
+  public Player drawCard(Card card) {
+    hand.add(card);
+    return new Player(name, hp, handLimit, hand, equipment, judge);
+  }
+
+
+  /**
+   * Gets the nth card that the player has.
+   * @return an instance of card
+   */
+  public Card getCard(int n) {
+    return hand.get(n);
+  }
+
+  /**
+   * Removes the nth card that the player has.
+   * @return a new player instance with updated hand.
+   */
+  public Player removeCard(int n) {
+    hand.remove(n);
+    return new Player(name, hp, handLimit, hand, equipment, judge);
+  }
+
+  /**
    * Gets the player's current equipments.
    * @return the player's equipments as an arraylist
    */

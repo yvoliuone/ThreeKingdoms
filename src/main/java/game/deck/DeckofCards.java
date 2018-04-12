@@ -27,6 +27,9 @@ public class DeckofCards {
     // The pile of discarded cards. Cards on table top go here after each turn ends
     this.discardedPile = new ArrayList<>();
 
+    // TEST
+    this.cards = test();
+
     // The discarded pile and table top are initially empty.
     // We manually add all cards to the "cards" array
 

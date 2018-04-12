@@ -11,25 +11,25 @@ import java.util.ArrayList;
  * The main game instance.
  */
 public class ThreeKingdoms {
-  private Player me;
-  private Player opponent;
+  private Player player1;
+  private Player player2;
   private DeckofCards deck;
 
 
-  ThreeKingdoms(Player me, Player opponent, DeckofCards deck) {
-    this.me = me;
-    this.opponent = opponent;
+  ThreeKingdoms(Player player1, Player player2, DeckofCards deck) {
+    this.player1 = player1;
+    this.player2 = player2;
     this.deck = deck;
   }
 
   /**
    * Starts a new game with a new deck of cards (and empty discarded pile).
-   * @param me the main player instance
-   * @param opponent the opponent player instance
+   * @param player1 the first player instance
+   * @param player2 the second player instance
    * @return a new game instance with the players and an initialized deck
    */
-  public static ThreeKingdoms startNewGame(Player me, Player opponent) {
-    return new ThreeKingdoms(me, opponent, DeckofCards.makeNewDeck());
+  public static ThreeKingdoms startNewGame(Player player1, Player player2) {
+    return new ThreeKingdoms(player1, player2, DeckofCards.makeNewDeck());
   }
 
 
@@ -37,34 +37,58 @@ public class ThreeKingdoms {
    * Gets the main player of the game.
    * @return an instance of player
    */
-  public Player getMainPlayer() {
-    return me;
+  public Player getPlayer1() {
+    return player1;
   }
 
   /**
    * Gets the opponent player of the game.
    * @return an instance of player
    */
-  public Player getOpponent() {
-    return opponent;
+  public Player getPlayer2() {
+    return player2;
   }
 
   /**
-   * Updates the main player of the game.
-   * @param me the new main player
-   * @return a new game instance with updated main player
+   * Gets the current player of the game.
+   * @param id the ID of the current player. Either 1 or 2.
+   * @return an instance of player
    */
-  public ThreeKingdoms updateMainPlayer(Player me) {
-    return new ThreeKingdoms(me, opponent, deck);
+  public Player getPlayer(int id) {
+    return id == 1 ? player1 : player2;
   }
 
+//  /**
+//   * Updates player1 of the game.
+//   * @param player1 the new main player
+//   * @return a new game instance with updated player1
+//   */
+//  public ThreeKingdoms updatePlayer1(Player player1) {
+//    return new ThreeKingdoms(player1, player2, deck);
+//  }
+//
+//  /**
+//   * Updates player2 of the game.
+//   * @param player2 the new opponent player
+//   * @return a new game instance with updated player2
+//   */
+//  public ThreeKingdoms updatePlayer2(Player player2) {
+//    return new ThreeKingdoms(player1, player2, deck);
+//  }
+
+
   /**
-   * Updates the opponent player of the game.
-   * @param opponent the new opponent player
-   * @return a new game instance with updated opponent
+   * Updates the current player of the game.
+   * @param id player id
+   * @param player the new player instance
+   * @return a new game instance with updated player1
    */
-  public ThreeKingdoms updateOpponent(Player opponent) {
-    return new ThreeKingdoms(me, opponent, deck);
+  public ThreeKingdoms updatePlayer(int id, Player player) {
+    if (id == 1) {
+      return new ThreeKingdoms(player, player2, deck);
+    } else {
+      return new ThreeKingdoms(player1, player, deck);
+    }
   }
 
   /**
@@ -74,6 +98,22 @@ public class ThreeKingdoms {
   public ArrayList<Card> getCards() {
     return deck.getCards();
   }
+
+//  /**
+//   * Gets the nth card that player has.
+//   * @return an instance of Card
+//   */
+//  public Card getCard(int n) {
+//    return deck.getCards().get(n);
+//  }
+//
+//  /**
+//   * Removes the nth card that player has.
+//   * @return a new game instance with updated hand.
+//   */
+//  public Card removeCard(int n) {
+//    return deck.getCards().get(n);
+//  }
 
   /**
    * Gets all cards that have been played in the current turn.
@@ -99,7 +139,7 @@ public class ThreeKingdoms {
    * @return a new game instance with updated deck
    */
   public ThreeKingdoms updateDeck(ArrayList<Card> newCards, ArrayList<Card> newTable, ArrayList<Card> newDiscarded) {
-    return new ThreeKingdoms(me, opponent, new DeckofCards(newCards, newTable, newDiscarded));
+    return new ThreeKingdoms(player1, player2, new DeckofCards(newCards, newTable, newDiscarded));
   }
 
   /**
@@ -108,25 +148,25 @@ public class ThreeKingdoms {
    * @return a new game instance with updated deck
    */
   public ThreeKingdoms updateDeck(DeckofCards newDeck) {
-    return new ThreeKingdoms(me, opponent, newDeck);
+    return new ThreeKingdoms(player1, player2, newDeck);
   }
 
-  /**
-   * Draw n cards for the main player.
-   * @param n the number of cards to be drawn
-   * @return a new game instance with updated main player and deck
-   */
-  public ThreeKingdoms draw(int n) {
-    int count = n;
-    ArrayList<Card> remainingCards = getCards();
-    ArrayList<Card> newHand = me.getHand();
-    while (count > 0) {
-      Card card = remainingCards.remove(0);
-      newHand.add(card);
-      count--;
-    }
-    return updateMainPlayer(me.updateHand(newHand)).updateDeck(remainingCards, getTableTop(), getDiscardedPile());
-  }
+//  /**
+//   * Draw n cards for the main player.
+//   * @param n the number of cards to be drawn
+//   * @return a new game instance with updated main player and deck
+//   */
+//  public ThreeKingdoms draw(int n) {
+//    int count = n;
+//    ArrayList<Card> remainingCards = getCards();
+//    ArrayList<Card> newHand = player1.getHand();
+//    while (count > 0) {
+//      Card card = remainingCards.remove(0);
+//      newHand.add(card);
+//      count--;
+//    }
+//    return updatePlayer1(player1.updateHand(newHand)).updateDeck(remainingCards, getTableTop(), getDiscardedPile());
+//  }
 
   /**
    * Ends the current turn. Move all cards on table top to discarded pile.

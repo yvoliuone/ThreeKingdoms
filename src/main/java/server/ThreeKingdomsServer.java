@@ -22,10 +22,11 @@ public class ThreeKingdomsServer {
   public static int userNumber = 1;
   public static ConcurrentHashMap<Session, Integer> sessionMap = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<Integer, Session> userMap = new ConcurrentHashMap<>();
-    static ArrayList<Card> deck = DeckofCards.test();
+//    static ArrayList<Card> deck = DeckofCards.test();
+    public static ThreeKingdoms game;
 
     public static void main(String[] args) {
-//    ThreeKingdoms game = ThreeKingdoms.startNewGame(Player.createTest("player1"), Player.createTest("player2"));
+    game = ThreeKingdoms.startNewGame(Player.createTest("player1"), Player.createTest("player2"));
     staticFileLocation("/threeKingdoms");
     webSocket("/threeKingdoms", ThreeKingdomsHandler.class);
 
@@ -59,7 +60,8 @@ public class ThreeKingdomsServer {
   public static String draw(Session userSession, int amount) {
       JSONArray cards = new JSONArray();
       for (int i = 0; i < amount; i++) {
-          Card card = deck.remove(0);
+          Card card = game.getCards().remove(0);
+          game = game.updatePlayer(getID(userSession), getPlayer(userSession).drawCard(card));
           cards.put(new JSONArray().put(card.getType()).put(card.getSuit()).put(card.getRank()));
       }
       return JSONObject.valueToString(new JSONObject().put("command", "draw").put("cards", cards).put("amount", amount));
@@ -84,5 +86,13 @@ public class ThreeKingdomsServer {
 
   public static Session nextSession(Session userSession) {
     return sessionMap.keySet().stream().filter(session -> session != userSession).findFirst().get();
+  }
+
+  public static Player getPlayer(Session userSession) {
+        return game.getPlayer(sessionMap.get(userSession));
+  }
+
+  public static int getID(Session userSession) {
+        return sessionMap.get(userSession);
   }
 }

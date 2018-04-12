@@ -22,17 +22,20 @@ var hand = [];
 
 
 $("#card1").click( function () {
-    if (checkActive(hand[0][0])) {
-
-    }
+    // if (checkActive(hand[0][0])) {
+    //
+    // }
+    play(1)
 });
 
 $("#card2").click( function () {
-    sendJson("2");
+    // sendJson("2");
+    play(2)
 });
 
 $("#card3").click( function () {
-    sendJson("3")
+    // sendJson("3")
+    play(3)
 })
 
 $("#end").click( function () {
@@ -135,11 +138,15 @@ function resume() {
     $("#hand").removeClass("tempDisabled")
 }
 
-function play(string) {
-    if (string == "attack") {
-        webSocket.send(JSON.stringify({command: "request", card: "attack", amount: 1}))
-    }
-    return true
+function play(n) {
+    // if (string == "attack") {
+        // webSocket.send(JSON.stringify({command: "request", card: "dodge", amount: 1}))
+        // webSocket.send(JSON.stringify({play: n}))
+    webSocket.send(n)
+
+
+    // }
+    // return true
 }
 
 // //Update the chat-panel, and the list of connected users
